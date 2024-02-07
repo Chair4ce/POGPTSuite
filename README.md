@@ -6,7 +6,7 @@ The Portable Operational gPT Suite, the open-source AI chat app designed for all
 
 ## Demo
 
-View the latest demo [here](https://POGPT.ambercaravalho.com).
+View the latest demo [here](https://pogpt.ambercaravalho.com).
 
 ## Discussions
 
@@ -61,10 +61,19 @@ sudo usermod -aG docker $USER
 **MacOS/Linux**
 
 ```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+```bash
 brew install supabase/tap/supabase
 ```
 
 **Windows**
+
+```bash
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+```
 
 ```bash
 scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
@@ -112,7 +121,7 @@ This prevents issues with storage files not being deleted properly.
 
 ### 6. Install Ollama
 
-Follow the instructions [here](https://github.com/jmorganca/ollama#macos).
+Follow the instructions [here](https://github.com/jmorganca/ollama).
 
 ### 7. Run app locally
 
@@ -132,4 +141,4 @@ We are working on a guide for contributing.
 
 ## Contact
 
-Visit our site [here](https://POGPT.ambercaravalho.com)
+Visit our site [here](https://pogpt.ambercaravalho.com)
