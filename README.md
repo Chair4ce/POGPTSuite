@@ -1,22 +1,16 @@
-# POGPT Suite 
+# The POGPT Suite
 
-The Portable Operational gPT Suite, the open-source AI chat app designed for all computing environments.
+The Portable Operational gPT Suite, an open-source AI chat app designed for all computing environments.
+
+Prototyped and developed at the [DAF BRAVO 11 Hackathon](https://www.defense.gov/News/Releases/Release/Article/3610215/chief-digital-and-artificial-intelligence-office-to-host-hackathon-in-hawaii/) from February 05 to 09, 2024 by team Mai Tai Mafia.
 
 <img src="./public/readme/screenshot.png" alt="Chatbot UI" width="600">
 
-## Demo
+## Demo Site
 
 View the latest demo [here](https://pogpt.ambercaravalho.com).
 
-## Discussions
-
-We highly encourage you to participate in the "Discussions" tab above!
-
-Discussions are a great place to ask questions, share ideas, and get help.
-
-Odds are if you have a question, someone else has the same question.
-
-## Updating
+## Updating (Once Installed)
 
 In your terminal at the root of your local POGPT Suite repository, run:
 
@@ -24,11 +18,11 @@ In your terminal at the root of your local POGPT Suite repository, run:
 npm run update
 ```
 
-## Quickstart Guide
+## Initial Build Guide (Linux Only)
 
 Follow these steps to get your own POGPT Suite instance running locally.
 
-### 1. Clone the Repo
+### 1. Clone this GitHub Repo
 
 ```bash
 git clone https://github.com/Chair4ce/POGPTSuite.git
@@ -42,7 +36,7 @@ Open a terminal in the root directory of your local POGPT Suite repository and r
 npm install
 ```
 
-### 3. Install Supabase & Run Locally
+### 3. Install Supabase
 
 #### 1. Install Docker
 
@@ -50,34 +44,24 @@ You will need to install Docker to run Supabase locally. You can download it [he
 
 #### 2. Add your user account to the local docker user group.
 
-**MacOS/Linux**
-
 ```bash
 sudo usermod -aG docker $USER
 ```
 
+You may need to log out and back into your account for the permissions to apply.
+
 #### 3. Install Supabase CLI
 
-**MacOS/Linux**
+Homebrew is required to install Supabase. If it is not installed already, run:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+Once Homebrew is installed, run:
+
 ```bash
 brew install supabase/tap/supabase
-```
-
-**Windows**
-
-```bash
-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-> Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-```
-
-```bash
-scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
-scoop install supabase
 ```
 
 #### 4. Start Supabase
@@ -104,7 +88,7 @@ Get the required values by running:
 supabase status
 ```
 
-Note: Use `API URL` from `supabase status` for `NEXT_PUBLIC_SUPABASE_URL`
+Note: Use `API URL` from `supabase status` for `NEXT_PUBLIC_SUPABASE_URL`.
 
 Now go to your `.env.local` file and fill in the values.
 
@@ -112,12 +96,10 @@ If the environment variable is set, it will disable the input in the user settin
 
 #### 2. SQL Setup
 
-In the 1st migration file `supabase/migrations/20240108234540_setup.sql` you will need to replace 2 values with the values you got above:
+In the 1st migration file, `supabase/migrations/20240108234540_setup.sql`, you will need to replace 2 values with the values you got above:
 
 - `project_url` (line 53): `http://supabase_kong_chatbotui:8000` (default) can remain unchanged if you don't change your `project_id` in the `config.toml` file
 - `service_role_key` (line 54): You got this value from running `supabase status`
-
-This prevents issues with storage files not being deleted properly.
 
 ### 6. Install Ollama
 
@@ -135,10 +117,10 @@ Your local instance of POGPT Suite should now be running at [http://localhost:30
 
 You can view your backend GUI at [http://localhost:54323/project/default/editor](http://localhost:54323/project/default/editor).
 
-## Contributing
+## Discussions
 
-We are working on a guide for contributing.
+We highly encourage you to participate in the "Discussions" tab above!
 
-## Contact
+Discussions are a great place to ask questions, share ideas, and get help.
 
-Visit our site [here](https://pogpt.ambercaravalho.com)
+Odds are if you have a question, someone else has the same question.
