@@ -110,30 +110,16 @@ Add Supabase secrets (copied earlier) next to the following keys:
 
 #### 3. SQL Setup
 
-Using your text editor of choice, edit the `supabase/migrations/20240108234540_setup.sql`.
+Using your text editor of choice, edit the `supabase/migrations/20240108234540_setup.sql` file.
 
 Add Supabase secrets (copied earlier) next to the `service_role_key` on line 54.
 
-### 6. Install Ollama
+### 6. Configure Ollama
 
-#### 1. Compute Selection
-
-##### CPU Only (No GPU)
-
-If the system does not have access to an Nvidia GPU, run:
+#### 1. Run the following command to install Ollama:
 
 ```bash
-docker run -d -v ollama:/root/.ollama -e OLLAMA_HOST=0.0.0.0:11434 -p 11434:11434 --name ollama ollama/ollama
-```
-
-##### Nvidia GPU (Non-AMD)
-
-If the system does have access to an Nvidia GPU, follow the instructions [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) to install the Nvidia Container Toolkit for your distribution.
-
-Once the toolkit is installed, run:
-
-```bash
-docker run -d --gpus=all -v ollama:/root/.ollama -e OLLAMA_HOST=0.0.0.0:11434 -p 11434:11434 --name ollama ollama/ollama
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 #### 2. Choose a Large Language Model
@@ -143,7 +129,22 @@ Visit the [Ollama library](https://ollama.ai/library) and choose a model from th
 Run the model of your choice at least once. Here is an example using mistral:
 
 ```bash
-docker exec -it ollama ollama pull mistral
+ollama pull mistral
+```
+
+#### 3. Make Ollama Acessible to External
+
+Using your text editor of choice, edit the `/etc/systemd/system/ollama.service` file.
+
+Add the following environemnt variables under `[Service]` and above the existing environement variable:
+- `Environment="OLLAMA_HOST=0.0.0.0"`
+- `Environment="OLLAMA_ORIGINS=*"`
+
+Restart the Ollama process:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start ollama
 ```
 
 ### 7. Run app locally
