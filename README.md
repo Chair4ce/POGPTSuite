@@ -30,6 +30,8 @@ git clone https://github.com/Chair4ce/POGPTSuite.git
 
 ### 2. Install Dependencies
 
+If node.js and NPM are not installed already, visit [their documentation](https://github.com/nodesource/distributions?tab=readme-ov-file#table-of-contents) to install the versions for your distribution.
+
 Open a terminal in the root directory of your local POGPT Suite repository and run:
 
 ```bash
@@ -40,7 +42,7 @@ npm install
 
 #### 1. Install Docker
 
-Docker is required to install Supabase. If it is not installed already, visit [their documentation](https://docs.docker.com/desktop/install/linux-install/) to install the version for your distribution.
+Docker is required to install Supabase. If it is not installed already, visit [their documentation](https://docs.docker.com/engine/install/) to install the version for your distribution.
 
 #### 2. Add your user account to the local docker user group.
 
@@ -50,7 +52,7 @@ sudo usermod -aG docker $USER
 
 You may need to log out and back into your account for the permissions to apply.
 
-#### 3. Install Supabase CLI
+#### 3. Install Homebrew
 
 Homebrew is required to install Supabase. If it is not installed already, run:
 
@@ -58,13 +60,22 @@ Homebrew is required to install Supabase. If it is not installed already, run:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+You must also add it to your path:
+
+```bash
+(echo; echo 'eval "$(/home/linuxbrew/bin/brew shellenv)"') >> /home/dev/.bashrc
+eval "$(/home/linuxbrew/bin/brew shellenv)"
+```
+
+#### 4. Install Supabase CLI
+
 Once Homebrew is installed, run:
 
 ```bash
 brew install supabase/tap/supabase
 ```
 
-#### 4. Start Supabase
+#### 5. Start Supabase
 
 In your terminal at the root of your local POGPT Suite repository, run:
 
@@ -74,7 +85,13 @@ supabase start
 
 ### 5. Fill in Secrets
 
-#### 1. Environment Variables
+#### 1. List Secrets
+
+Get the required environment values by copying the response after running:
+
+```bash
+supabase status
+```
 
 In your terminal at the root of your local POGPT Suite repository, run:
 
@@ -82,24 +99,20 @@ In your terminal at the root of your local POGPT Suite repository, run:
 cp .env.local.example .env.local
 ```
 
-Get the required values by running:
+#### 2. Edit Environment Variables
 
-```bash
-supabase status
-```
+Using your choice of text editor, edit the `.env.local` file.
 
-Note: Use `API URL` from `supabase status` for `NEXT_PUBLIC_SUPABASE_URL`.
+Add Supabase secrets (copied earlier) next to the following keys:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
 
-Now go to your `.env.local` file and fill in the values.
+#### 3. SQL Setup
 
-If the environment variable is set, it will disable the input in the user settings.
+Using your text editor of choice, edit the `supabase/migrations/20240108234540_setup.sql`.
 
-#### 2. SQL Setup
-
-In the 1st migration file, `supabase/migrations/20240108234540_setup.sql`, you will need to replace 2 values with the values you got above:
-
-- `project_url` (line 53): `http://supabase_kong_chatbotui:8000` (default) can remain unchanged if you don't change your `project_id` in the `config.toml` file
-- `service_role_key` (line 54): You got this value from running `supabase status`
+Add Supabase secrets (copied earlier) next to the `service_role_key` on line 54.
 
 ### 6. Install Ollama
 
@@ -110,7 +123,7 @@ In the 1st migration file, `supabase/migrations/20240108234540_setup.sql`, you w
 If the system does not have access to an Nvidia GPU, run:
 
 ```bash
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+docker run -d -v ollama:/root/.ollama -e OLLAMA_HOST=0.0.0.0:11434 -p 11434:11434 --name ollama ollama/ollama
 ```
 
 ##### Nvidia GPU (Non-AMD)
@@ -120,20 +133,18 @@ If the system does have access to an Nvidia GPU, follow the instructions [here](
 Once the toolkit is installed, run:
 
 ```bash
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+docker run -d --gpus=all -v ollama:/root/.ollama -e OLLAMA_HOST=0.0.0.0:11434 -p 11434:11434 --name ollama ollama/ollama
 ```
 
-#### 2. Choose LLM Model
+#### 2. Choose a Large Language Model
 
 Visit the [Ollama library](https://ollama.ai/library) and choose a model from the list.
 
-Run the model of your choice at least once. Here is an example using Llama 2:
+Run the model of your choice at least once. Here is an example using mistral:
 
 ```bash
-docker exec -it ollama ollama run llama2
+docker exec -it ollama ollama pull mistral
 ```
-
-Once running, type `/bye` to exit.
 
 ### 7. Run app locally
 
@@ -150,5 +161,3 @@ You can view your backend GUI at [http://localhost:54323/project/default/editor]
 ## Thanks For Visiting 👋
 
 We highly encourage you to participate in the "Discussions" tab above!
-
-Discussions are a great place to ask questions, share ideas, and get help.
